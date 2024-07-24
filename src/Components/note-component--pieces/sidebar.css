@@ -18,7 +18,7 @@
 }
 
 .sidebar--header > h3 {
-  font-size: 1.75rem;
+  font-size: 1.8rem;
 }
 .new-note {
   cursor: pointer;
@@ -54,9 +54,9 @@
 
 .text-snippet {
   padding-inline: 5px;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1.2rem;
+  line-height: 1.5rem;
   color: #4a4e74;
   white-space: nowrap;
   overflow: hidden;
@@ -69,18 +69,4 @@
 .selected-note .text-snippet {
   color: white;
   font-weight: 700;
-}
-.gutter {
-  background-color: #eee;
-
-  background-repeat: no-repeat;
-  background-position: 50%;
-}
-
-.gutter.gutter-horizontal {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
-}
-
-.gutter.gutter-horizontal:hover {
-  cursor: col-resize;
 }

@@ -4,6 +4,10 @@
   transition: all var(--transition-duration);
 }
 
+.split {
+  display: flex;
+}
+
 .first-note {
   cursor: pointer;
   background-color: #4a4e74;
@@ -11,9 +15,6 @@
   color: white;
   border-radius: 3px;
   padding: 1rem;
-}
-.split {
-  display: flex;
 }
 
 .no-notes {
