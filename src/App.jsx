@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Components/Header';
-import Meme from './Components/Meme';
+import Meme from './Components/Note';
 
 export default function App() {
   // Create a state variable, meme, and set it equal to an object with

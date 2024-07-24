@@ -1,4 +1,4 @@
-import './Meme.css';
+import './Note.css';
 import magicWandIcon from '/images/magic-wand.png';
 import PropTypes from 'prop-types';
 
