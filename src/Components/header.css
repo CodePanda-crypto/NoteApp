@@ -1,0 +1,30 @@
+.App-header {
+  grid-area: header;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  background: rgb(103, 34, 128);
+  background: radial-gradient(
+    circle,
+    rgba(103, 34, 128, 1) 0%,
+    rgba(253, 29, 203, 1) 46%,
+    rgba(252, 176, 69, 1) 100%
+  );
+
+  color: #ffffff;
+  box-shadow: 0px 2.98px 7.46px 0px rgba(0, 0, 0, 0.3);
+  padding: 0.5rem;
+}
+.App-logo {
+  height: 5em;
+  width: auto;
+}
+.App-title {
+  font-family: Karla;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 25px;
+  letter-spacing: 0.1em;
+  text-align: left;
+}
