@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Header from './Components/Header';
 import Notes from './Components/Note';
@@ -12,7 +13,7 @@ export default function App() {
     if (notes.length > 0 && !currentNoteId) {
       setCurrentNoteId(notes[0].id);
     }
-  }, [notes, currentNoteId]);
+  }, [notes]);
 
   function createNewNote() {
     const newNote = {

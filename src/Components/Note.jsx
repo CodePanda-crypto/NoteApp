@@ -10,7 +10,7 @@ export default function Notes(props) {
   return (
     <main className="main-container">
       {props.notes.length > 0 ? (
-        <Split sizes={[30, 70]} direction="horizontal" className="split">
+        <Split sizes={[20, 80]} direction="horizontal" className="split">
           <Sidebar
             notes={props.notes}
             currentNote={currentNote}

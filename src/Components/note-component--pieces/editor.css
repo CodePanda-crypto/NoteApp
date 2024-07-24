@@ -1,0 +1,86 @@
+/* Ensure the editor section takes full height */
+.pane.editor {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.react-mde {
+  height: 100%;
+}
+
+.react-mde textarea {
+  flex-grow: 1;
+  border: none;
+  padding: 1rem;
+  font-size: 1.2em;
+  line-height: 1.5;
+  resize: none;
+}
+
+.react-mde .mde-header {
+  display: flex;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+}
+
+.react-mde .mde-header-item button {
+  cursor: pointer;
+  background-color: #4a4e74 !important;
+  border: none !important;
+  color: white !important;
+  border-radius: 3px !important;
+  transition: background-color 0.3s !important;
+}
+
+.react-mde .mde-header-item button:hover {
+  background-color: #3b3f6a !important;
+}
+
+.react-mde .mde-header-item button.active {
+  background-color: #32365a !important;
+}
+
+/* Markdown preview styles */
+.react-mde .mde-preview {
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.react-mde .mde-preview h1,
+.react-mde .mde-preview h2,
+.react-mde .mde-preview h3,
+.react-mde .mde-preview h4,
+.react-mde .mde-preview h5,
+.react-mde .mde-preview h6 {
+  font-weight: bold;
+}
+
+.react-mde .mde-preview p {
+  font-size: 1.3em;
+  font-weight: 100;
+}
+
+.react-mde .mde-preview ul {
+  list-style-type: disc;
+  padding-left: 2em;
+}
+
+.react-mde .mde-preview ol {
+  list-style-type: decimal;
+  padding-left: 2em;
+}
+
+.react-mde .mde-preview blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 1em;
+  color: #666;
+  font-style: italic;
+}
+
+.react-mde .mde-preview code {
+  background-color: #f5f5f5;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
