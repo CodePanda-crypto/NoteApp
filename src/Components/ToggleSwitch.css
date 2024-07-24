@@ -2,7 +2,7 @@
 
 .toggle-switch {
   position: relative;
-  width: 70px;
+  width: 65px;
   display: inline-block;
   text-align: left;
   top: 0;
@@ -45,7 +45,7 @@
 
 .toggle-switch-inner:before {
   content: 'Light';
-  padding-left: 10px;
+  padding-left: 6px;
   background-color: #4caf50;
   color: #fff;
 }
@@ -66,7 +66,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 46px;
+  right: 42px;
   border: 2px solid #ddd;
   border-radius: 50%;
   transition: all 0.3s ease-in 0s;

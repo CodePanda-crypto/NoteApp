@@ -1,5 +1,5 @@
 import './header.css';
-import appLogo from '/images/cute-halloween-skeleton.png';
+import appLogo from '/images/note-app.png';
 import { useTheme } from '../ThemeContext';
 import ToggleSwitch from './ToggleSwitch';
 
@@ -20,12 +20,12 @@ export default function Header() {
               <img
                 src={appLogo}
                 className="App-logo react logo-spin"
-                alt="React logo"
+                alt="Note App logo"
               />
             </a>
           </div>
           <div>
-            <h1 className="App-title">Meme Generator</h1>
+            <h1 className="App-title">Note</h1>
           </div>
         </div>
         <div className="toggle-theme-container">
