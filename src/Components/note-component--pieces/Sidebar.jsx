@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import './sidebar.css';
+// import './sidebar.css';
 
 export default function Sidebar(props) {
   const noteElements = props.notes.map((note, index) => (

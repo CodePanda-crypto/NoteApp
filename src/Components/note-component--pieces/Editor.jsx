@@ -1,4 +1,4 @@
-import './editor.css';
+// import './editor.css';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactMde from 'react-mde';
