@@ -46,8 +46,8 @@
 .toggle-switch-inner:before {
   content: 'Light';
   padding-left: 6px;
-  background-color: #4caf50;
-  color: #fff;
+  background-color: #ffffff;
+  color: #333;
 }
 
 .toggle-switch-inner:after {
