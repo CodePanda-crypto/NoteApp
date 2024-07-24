@@ -32,6 +32,8 @@ export default function Editor({ currentNote, updateNote }) {
 }
 
 Editor.propTypes = {
-  currentNote: PropTypes.object,
-  updateNote: PropTypes.func,
+  currentNote: PropTypes.shape({
+    body: PropTypes.string,
+  }).isRequired,
+  updateNote: PropTypes.func.isRequired,
 };

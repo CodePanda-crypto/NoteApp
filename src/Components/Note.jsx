@@ -1,25 +1,24 @@
 import './Note.css';
-// import { data } from './data';
 import Editor from './note-component--pieces/Editor';
 import Sidebar from './note-component--pieces/Sidebar';
 import Split from 'react-split';
 import PropTypes from 'prop-types';
+
 export default function Notes(props) {
+  const currentNote = props.findCurrentNote();
+
   return (
     <main className="main-container">
       {props.notes.length > 0 ? (
         <Split sizes={[30, 70]} direction="horizontal" className="split">
           <Sidebar
             notes={props.notes}
-            currentNote={props.findCurrentNote}
+            currentNote={currentNote}
             setCurrentNoteId={props.setCurrentNoteId}
             newNote={props.createNewNote}
           />
-          {props.currentNoteId && props.notes.length > 0 && (
-            <Editor
-              currentNote={props.findCurrentNote}
-              updateNote={props.updateNote}
-            />
+          {props.currentNoteId && (
+            <Editor currentNote={currentNote} updateNote={props.updateNote} />
           )}
         </Split>
       ) : (
@@ -37,6 +36,7 @@ export default function Notes(props) {
     </main>
   );
 }
+
 Notes.propTypes = {
   notes: PropTypes.array,
   currentNoteId: PropTypes.string,

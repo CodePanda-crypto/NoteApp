@@ -1,5 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react';
 import PropTypes from 'prop-types';
 import './sidebar.css';
 
@@ -29,9 +27,10 @@ export default function Sidebar(props) {
     </section>
   );
 }
+
 Sidebar.propTypes = {
-  notes: PropTypes.array,
-  currentNote: PropTypes.object,
-  setCurrentNoteId: PropTypes.func,
-  newNote: PropTypes.func,
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  currentNote: PropTypes.object.isRequired,
+  setCurrentNoteId: PropTypes.func.isRequired,
+  newNote: PropTypes.func.isRequired,
 };
