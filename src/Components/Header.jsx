@@ -25,7 +25,7 @@ export default function Header() {
             </a>
           </div>
           <div>
-            <h1 className="App-title">Note</h1>
+            <h1 className="App-title">Notes</h1>
           </div>
         </div>
         <div className="toggle-theme-container">
