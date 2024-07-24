@@ -1,4 +1,4 @@
-import './header.css';
+import './Header.css';
 import appLogo from '/images/note-app.png';
 import { useTheme } from '../ThemeContext';
 import ToggleSwitch from './ToggleSwitch';
