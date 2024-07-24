@@ -1,21 +1,30 @@
 /* themes.css */
 
 :root {
-  --bg-color: #ffffff;
-  --text-color: #000000;
+  --bg-color-light: #ffffff;
+  --text-color-light: #000000;
+  --bg-color-dark: #21222a;
+  --text-color-dark: #ffffff;
+  --primary-color: #dd7eff;
+  --accent-color: #ff8fe7;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --transition-duration: 0.2s;
 }
 
 body.light {
-  --bg-color: #ffffff;
-  --text-color: #000000;
+  --bg-color: var(--bg-color-light);
+  --text-color: var(--text-color-light);
 }
 
 body.dark {
-  --bg-color: #000000;
-  --text-color: #ffffff;
+  --bg-color: var(--bg-color-dark);
+  --text-color: var(--text-color-dark);
 }
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
+  transition:
+    background-color var(--transition-duration),
+    color var(--transition-duration);
 }

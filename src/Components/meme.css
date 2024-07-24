@@ -1,3 +1,5 @@
+/* App.css */
+
 .main-container {
   grid-area: main;
   padding: 2rem;
@@ -7,8 +9,9 @@
   align-items: center;
   gap: 30px;
   cursor: pointer;
+  transition: all var(--transition-duration);
 }
-/* FIXME:Styling for the form container */
+
 .user-input-container {
   display: flex;
   flex-direction: column;
@@ -36,9 +39,10 @@
   border-radius: 4px;
   margin-bottom: 5px;
   transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+    border-color var(--transition-duration),
+    box-shadow var(--transition-duration);
 }
+
 .input-wrapper input:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
@@ -51,19 +55,17 @@
   align-items: center;
   gap: 20px;
   border-radius: 10px;
-  padding: 1rem;
-  padding-left: 5rem;
-  padding-right: 5rem;
-  background: rgb(103, 34, 128);
-
+  padding: 1rem 5rem;
+  background: var(--primary-color);
   color: white;
   border: none;
   cursor: pointer;
   font-size: 16px;
   transition:
-    background-color 0.3s ease,
-    transform 0.3s ease;
+    background-color var(--transition-duration),
+    transform var(--transition-duration);
 }
+
 .content-button img {
   width: 30px;
   height: 30px;
@@ -72,8 +74,7 @@
 .content-button:hover {
   background: radial-gradient(
     circle,
-    rgb(145, 96, 163) 0%,
-    rgb(255, 132, 228) 46%,
+    var(--accent-color) 0%,
     rgb(255, 204, 133) 100%
   );
   transform: scale(1.05);
@@ -82,7 +83,7 @@
 .content-button:active {
   transform: scale(0.95);
 }
-/* FIXME:Styling for the meme container */
+
 .meme-container {
   position: relative;
   width: 100%;
@@ -104,18 +105,22 @@
   color: white;
   text-shadow: 2px 2px 5px black;
 }
+
 .meme-img {
   width: 100%;
   height: auto;
   max-height: 500px;
   object-fit: contain;
 }
+
 .top-text {
   top: 10px;
 }
+
 .bottom-text {
   bottom: 10px;
 }
+
 @media (max-width: 900px) {
   .input-container {
     flex-direction: column;
