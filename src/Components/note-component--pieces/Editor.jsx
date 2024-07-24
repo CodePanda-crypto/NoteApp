@@ -1,33 +1,42 @@
-import 'react-mde/lib/styles/css/react-mde-all.css';
+import 'react-markdown/lib/styles/css/react-markdown-all.css'; // Adjust if needed
 import './editor.css';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import ReactMde from 'react-mde';
-import Showdown from 'showdown';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { useEffect, useRef } from 'react';
 
 export default function Editor({ currentNote, updateNote }) {
-  const [selectedTab, setSelectedTab] = useState('write');
+  const [editorContent, setEditorContent] = useState(currentNote.body);
+  const editorRef = useRef(null);
 
-  const converter = new Showdown.Converter({
-    tables: true,
-    simplifiedAutoLink: true,
-    strikethrough: true,
-    tasklists: true,
-  });
+  // Update editorContent when currentNote.body changes
+  useEffect(() => {
+    setEditorContent(currentNote.body);
+  }, [currentNote.body]);
+
+  // Handle change in editor content
+  const handleChange = (event) => {
+    setEditorContent(event.target.value);
+    updateNote({
+      ...currentNote,
+      body: event.target.value,
+    });
+  };
 
   return (
     <section className="pane editor">
-      <ReactMde
-        value={currentNote.body}
-        onChange={updateNote}
-        selectedTab={selectedTab}
-        onTabChange={setSelectedTab}
-        generateMarkdownPreview={(markdown) =>
-          Promise.resolve(converter.makeHtml(markdown))
-        }
-        minEditorHeight={80}
-        heightUnits="vh"
+      <textarea
+        ref={editorRef}
+        value={editorContent}
+        onChange={handleChange}
+        style={{ height: '80vh', width: '100%' }}
       />
+      <div className="preview">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          {editorContent}
+        </ReactMarkdown>
+      </div>
     </section>
   );
 }
