@@ -6,7 +6,8 @@ import Notes from './Components/Note';
 export default function App() {
   //When the app first loads, initializes the notes state with the notes saved in localStorage.
   const [notes, setNotes] = useState(
-    JSON.parse(localStorage.getItem('notes')) || []
+    //lazy State
+    () => JSON.parse(localStorage.getItem('notes')) || []
   );
   const [currentNoteId, setCurrentNoteId] = useState('');
   // Every time the `notes` array changes, saves it in localStorage.
