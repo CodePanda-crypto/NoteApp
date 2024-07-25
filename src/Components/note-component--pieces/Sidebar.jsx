@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-// import './sidebar.css';
 
 export default function Sidebar(props) {
   // eslint-disable-next-line no-unused-vars
@@ -12,6 +11,12 @@ export default function Sidebar(props) {
         onClick={() => props.setCurrentNoteId(note.id)}
       >
         <h4 className="text-snippet">{note.body.split('\n')[0]}</h4>
+        <button
+          className="delete-btn"
+          onClick={(event) => props.deleteNote(event, note.id)}
+        >
+          <i className="gg-trash trash-icon"></i>
+        </button>
       </div>
     </div>
   ));
@@ -34,4 +39,5 @@ Sidebar.propTypes = {
   currentNote: PropTypes.object.isRequired,
   setCurrentNoteId: PropTypes.func.isRequired,
   newNote: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
 };

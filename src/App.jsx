@@ -46,6 +46,10 @@ export default function App() {
     });
   }
 
+  function deleteNote(event, noteId) {
+    event.stopPropagation();
+    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
+  }
   function findCurrentNote() {
     return notes.find((note) => note.id === currentNoteId) || notes[0];
   }
@@ -60,6 +64,7 @@ export default function App() {
         createNewNote={createNewNote}
         updateNote={updateNote}
         findCurrentNote={findCurrentNote}
+        deleteNote={deleteNote}
       />
     </div>
   );
