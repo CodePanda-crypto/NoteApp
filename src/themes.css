@@ -1,7 +1,7 @@
 /* Root CSS Variables for Themes */
 :root {
   --background-color: #ffffff;
-  --text-color: rgb(10, 10, 13);
+  --text-color: #1d1d20;
   --button-bg-color: #f9f9f9;
   --button-text-color: #000;
   --primary-color: #4a4e74;
@@ -12,9 +12,9 @@
 
 /* Dark Theme Variables */
 body.dark {
-  --background-color: #272525;
+  --background-color: #201d1d;
   --text-color: #ffffff;
-  --button-bg-color: #333333;
+  --button-bg-color: #2c2c47;
   --button-text-color: #ffffff;
   --primary-color: #2c2c47;
   --secondary-color: #303060;
@@ -23,7 +23,7 @@ body.dark {
 
 /* Global Styles */
 body {
-  font-family: Poppins, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   overflow-x: hidden;
@@ -33,23 +33,36 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color var(--transition-duration),
+    color var(--transition-duration);
 }
 
 h1 {
   font-size: 3em;
   line-height: 1.1;
   padding-bottom: 10px;
-  font-family: Poppins, Helvetica, sans-serif;
+  font-family: 'Poppins', Helvetica, sans-serif;
   font-weight: bold;
   font-style: normal;
 }
 
+/* Button Styles */
 button {
   background-color: var(--button-bg-color);
   color: var(--button-text-color);
   border: none;
   border-radius: 3px;
-  transition: background-color var(--transition-duration);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-duration),
+    color var(--transition-duration);
+}
+
+button:hover {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
 }
 
 /* Header Styles */
@@ -59,6 +72,9 @@ button {
   color: var(--text-color);
   box-shadow: 0px 2.98px 7.46px 0px var(--shadow-color);
   padding: 0.5rem;
+  transition:
+    background-color var(--transition-duration),
+    color var(--transition-duration);
 }
 
 .navbar {
@@ -108,6 +124,9 @@ button {
   font-size: 1.2em;
   line-height: 1.5;
   resize: none;
+  transition:
+    background-color var(--transition-duration),
+    color var(--transition-duration);
 }
 
 .react-mde .mde-header {
@@ -276,5 +295,13 @@ button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: whitesmoke;
+  background-color: var(--background-color) !important;
+  color: var(--text-color);
+  transition:
+    background-color var(--transition-duration),
+    color var(--transition-duration);
+}
+
+.no-notes h1 {
+  color: var(--text-color);
 }
