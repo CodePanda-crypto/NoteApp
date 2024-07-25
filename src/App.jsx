@@ -1,19 +1,27 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import './App.css';
+import { nanoid } from 'nanoid';
 import Header from './Components/Header';
 import Notes from './Components/Note';
-import { nanoid } from 'nanoid';
-
 export default function App() {
-  const [notes, setNotes] = useState([]);
+  //When the app first loads, initializes the notes state with the notes saved in localStorage.
+  const [notes, setNotes] = useState(() => {
+    const savedNotes = localStorage.getItem('notes');
+    //Parses the stringified notes back to an array
+    return savedNotes ? JSON.parse(savedNotes) : [];
+  });
   const [currentNoteId, setCurrentNoteId] = useState('');
+  // Every time the `notes` array changes, saves it in localStorage.
+  useEffect(() => {
+    localStorage.setItem('notes', JSON.stringify(notes));
+  }, [notes]);
 
   useEffect(() => {
     if (notes.length > 0 && !currentNoteId) {
       setCurrentNoteId(notes[0].id);
     }
-  }, [notes, currentNoteId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notes]);
 
   function createNewNote() {
     const newNote = {
