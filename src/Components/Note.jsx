@@ -16,6 +16,7 @@ export default function Notes(props) {
             currentNote={currentNote}
             setCurrentNoteId={props.setCurrentNoteId}
             newNote={props.createNewNote}
+            deleteNote={props.deleteNote}
           />
           {props.currentNoteId && (
             <Editor currentNote={currentNote} updateNote={props.updateNote} />
@@ -44,4 +45,5 @@ Notes.propTypes = {
   createNewNote: PropTypes.func,
   updateNote: PropTypes.func,
   findCurrentNote: PropTypes.func,
+  deleteNote: PropTypes.func,
 };
