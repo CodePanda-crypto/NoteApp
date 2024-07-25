@@ -13,7 +13,7 @@ export default function App() {
     if (notes.length > 0 && !currentNoteId) {
       setCurrentNoteId(notes[0].id);
     }
-  }, [notes]);
+  }, [notes, currentNoteId]);
 
   function createNewNote() {
     const newNote = {

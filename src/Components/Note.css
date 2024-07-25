@@ -111,6 +111,7 @@ button:focus {
 
 .selected-note {
   background-color: #4a4e74;
+  height: 3.5rem;
 }
 
 .selected-note .text-snippet {
