@@ -9,7 +9,7 @@ export default function App() {
     //lazy State
     () => JSON.parse(localStorage.getItem('notes')) || []
   );
-  const [currentNoteId, setCurrentNoteId] = useState('');
+  const [currentNoteId, setCurrentNoteId] = useState(notes[0]?.id || '');
   // Every time the `notes` array changes, saves it in localStorage.
   useEffect(() => {
     localStorage.setItem('notes', JSON.stringify(notes));
