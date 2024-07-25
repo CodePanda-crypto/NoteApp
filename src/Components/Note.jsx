@@ -33,15 +33,13 @@ export default function Notes(props) {
           onDragEnd={(sizes) => setSplitSizes(sizes)}
         >
           <Sidebar
-            notes={props.notes}
+            notes={props.sortedNotes}
             currentNote={currentNote}
             setCurrentNoteId={props.setCurrentNoteId}
             newNote={props.createNewNote}
             deleteNote={props.deleteNote}
           />
-          {props.currentNoteId && (
-            <Editor currentNote={currentNote} updateNote={props.updateNote} />
-          )}
+          <Editor currentNote={currentNote} updateNote={props.updateNote} />
         </Split>
       ) : (
         <div className="no-notes">
@@ -67,4 +65,5 @@ Notes.propTypes = {
   updateNote: PropTypes.func.isRequired,
   findCurrentNote: PropTypes.func.isRequired,
   deleteNote: PropTypes.func.isRequired,
+  sortedNotes: PropTypes.array.isRequired,
 };

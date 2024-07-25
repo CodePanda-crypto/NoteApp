@@ -1,55 +1,71 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
-import { nanoid } from 'nanoid';
 import Header from './Components/Header';
 import Notes from './Components/Note';
-export default function App() {
-  //When the app first loads, initializes the notes state with the notes saved in localStorage.
-  const [notes, setNotes] = useState(
-    //lazy State
-    () => JSON.parse(localStorage.getItem('notes')) || []
-  );
-  const [currentNoteId, setCurrentNoteId] = useState(notes[0]?.id || '');
-  // Every time the `notes` array changes, saves it in localStorage.
-  useEffect(() => {
-    localStorage.setItem('notes', JSON.stringify(notes));
-  }, [notes]);
+import { onSnapshot, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore';
+import { notesCollection, db } from './Firebase';
 
+export default function App() {
+  // Initialize notes state and currentNoteId with default values
+  const [notes, setNotes] = useState([]);
+  const [currentNoteId, setCurrentNoteId] = useState('');
+
+  //Sorted Notes
+  const sortedNotes = notes.sort((a, b) => {
+    return b.updatedAt - a.updatedAt;
+  });
+
+  // Fetch notes from Firestore and update the state
+  useEffect(() => {
+    const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
+      const notesArr = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setNotes(notesArr);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  // Set the currentNoteId based on the notes state
   useEffect(() => {
     if (notes.length > 0 && !currentNoteId) {
-      setCurrentNoteId(notes[0].id);
+      setCurrentNoteId(notes[0]?.id);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [notes]);
+  }, [notes, currentNoteId]);
 
-  function createNewNote() {
+  // Create a new note and add it to Firestore
+  async function createNewNote() {
     const newNote = {
-      id: nanoid(),
       body: "Type your markdown note's title here",
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     };
-    setNotes((prevNotes) => [newNote, ...prevNotes]);
-    setCurrentNoteId(newNote.id);
+    try {
+      const newNoteRef = await addDoc(notesCollection, newNote);
+      setCurrentNoteId(newNoteRef.id);
+    } catch (error) {
+      console.error('Error adding document: ', error);
+    }
   }
 
-  function updateNote(text) {
-    // Put the most recently-modified note at the top
-    setNotes((oldNotes) => {
-      const newArray = [];
-      for (let i = 0; i < oldNotes.length; i++) {
-        if (oldNotes[i].id === currentNoteId) {
-          newArray.unshift({ ...oldNotes[i], body: text });
-        } else {
-          newArray.push(oldNotes[i]);
-        }
-      }
-      return newArray;
-    });
+  // Update the note's body and reorder the notes array
+  async function updateNote(text) {
+    const docRef = doc(db, 'notes', currentNoteId);
+    await setDoc(
+      docRef,
+      { body: text, updatedAt: Date.now() },
+      { merge: true }
+    );
   }
 
-  function deleteNote(event, noteId) {
-    event.stopPropagation();
-    setNotes((oldNotes) => oldNotes.filter((note) => note.id !== noteId));
+  // Delete a note from the state
+  async function deleteNote(noteId) {
+    const docRef = doc(db, 'notes', noteId);
+    await deleteDoc(docRef);
   }
+
+  // Find the currently selected note
   function findCurrentNote() {
     return notes.find((note) => note.id === currentNoteId) || notes[0];
   }
@@ -65,6 +81,7 @@ export default function App() {
         updateNote={updateNote}
         findCurrentNote={findCurrentNote}
         deleteNote={deleteNote}
+        sortedNotes={sortedNotes}
       />
     </div>
   );
