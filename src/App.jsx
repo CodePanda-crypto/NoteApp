@@ -25,20 +25,25 @@ export default function App() {
   function createNewNote() {
     const newNote = {
       id: nanoid(),
-      body: "# Type your markdown note's title here",
+      body: "Type your markdown note's title here",
     };
     setNotes((prevNotes) => [newNote, ...prevNotes]);
     setCurrentNoteId(newNote.id);
   }
 
   function updateNote(text) {
-    setNotes((oldNotes) =>
-      oldNotes.map((oldNote) => {
-        return oldNote.id === currentNoteId
-          ? { ...oldNote, body: text }
-          : oldNote;
-      })
-    );
+    // Put the most recently-modified note at the top
+    setNotes((oldNotes) => {
+      const newArray = [];
+      for (let i = 0; i < oldNotes.length; i++) {
+        if (oldNotes[i].id === currentNoteId) {
+          newArray.unshift({ ...oldNotes[i], body: text });
+        } else {
+          newArray.push(oldNotes[i]);
+        }
+      }
+      return newArray;
+    });
   }
 
   function findCurrentNote() {
