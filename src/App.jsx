@@ -5,11 +5,9 @@ import Header from './Components/Header';
 import Notes from './Components/Note';
 export default function App() {
   //When the app first loads, initializes the notes state with the notes saved in localStorage.
-  const [notes, setNotes] = useState(() => {
-    const savedNotes = localStorage.getItem('notes');
-    //Parses the stringified notes back to an array
-    return savedNotes ? JSON.parse(savedNotes) : [];
-  });
+  const [notes, setNotes] = useState(
+    JSON.parse(localStorage.getItem('notes')) || []
+  );
   const [currentNoteId, setCurrentNoteId] = useState('');
   // Every time the `notes` array changes, saves it in localStorage.
   useEffect(() => {
