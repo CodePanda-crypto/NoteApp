@@ -3,20 +3,20 @@ import Header from './Components/Header';
 import Notes from './Components/Note';
 import { onSnapshot, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { notesCollection, db } from './Firebase';
-import { getAuth, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const auth = getAuth();
-    signInAnonymously(auth)
-      .then(() => {
-        console.log('Signed in anonymously');
-      })
-      .catch((error) => {
-        console.error('Error signing in anonymously:', error);
-      });
+    // signInAnonymously(auth)
+    //   .then(() => {
+    //     console.log('Signed in anonymously');
+    //   })
+    //   .catch((error) => {
+    //     console.error('Error signing in anonymously:', error);
+    //   });
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -86,10 +86,10 @@ export default function App() {
   // function to create a new note
   async function createNewNote() {
     if (!user) {
-      console.log('User is not authenticated');
+      // console.log('User is not authenticated');
       return;
     }
-    console.log('Creating a new note...'); // Debugging log
+    console.log('Creating a new note...');
     try {
       const newNote = {
         body: "# Type your markdown note's title here",
@@ -97,10 +97,10 @@ export default function App() {
         updatedAt: Date.now(),
       };
       const newNoteRef = await addDoc(notesCollection, newNote);
-      console.log('New note created with ID:', newNoteRef.id); // Debugging log
+      // console.log('New note created with ID:', newNoteRef.id);
       setCurrentNoteId(newNoteRef.id);
     } catch (error) {
-      console.error('Error creating new note:', error); // Debugging log
+      console.error('Error creating new note:', error);
     }
   }
 
