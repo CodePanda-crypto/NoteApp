@@ -44,7 +44,7 @@ export default function Sidebar(props) {
     </section>
   );
 }
-
+// Props being passed from the parent component
 Sidebar.propTypes = {
   notes: PropTypes.array.isRequired,
   currentNote: PropTypes.object,

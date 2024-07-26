@@ -3,21 +3,10 @@ import Editor from './note-component--pieces/Editor';
 import Sidebar from './note-component--pieces/Sidebar';
 import Split from 'react-split';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Notes(props) {
-  // Define the default split sizes
-  const defaultSizes = [20, 80];
-
-  // Initialize the split sizes state
-  const [splitSizes, setSplitSizes] = useState(
-    JSON.parse(localStorage.getItem('split-sizes')) || defaultSizes
-  );
-
-  // Save split sizes to local storage whenever they change
-  useEffect(() => {
-    localStorage.setItem('split-sizes', JSON.stringify(splitSizes));
-  }, [splitSizes]);
+  const [splitSizes, setSplitSizes] = useState([30, 70]);
 
   return (
     <main className="main-container">
@@ -57,7 +46,7 @@ export default function Notes(props) {
     </main>
   );
 }
-
+//PropTypes
 Notes.propTypes = {
   notes: PropTypes.array.isRequired,
   currentNoteId: PropTypes.string,
