@@ -72,7 +72,7 @@ export default function App() {
       if (tempNoteText !== currentNote.body) {
         updateNote(tempNoteText);
       }
-    }, 1000);
+    }, 500);
     return () => clearTimeout(timeoutId);
   }, [tempNoteText, currentNote]);
 
