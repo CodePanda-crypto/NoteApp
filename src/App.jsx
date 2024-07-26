@@ -36,13 +36,13 @@ export default function App() {
       setCurrentNoteId(notes[0]?.id);
     }
   }, [notes, currentNoteId]);
-  // useEffect to update the currentNote when it changes
+  // Bouncing Updates
   useEffect(() => {
     if (currentNote) {
       setTempNoteText(currentNote.body);
     }
   }, [currentNote]);
-  // useEffect to set a delay of 1000ms for the on keystrokes
+  // Debouncing Updates: set a delay of 1000ms for the on keystrokes
   // currentNote in the sideBar pops up to top after 1000ms
   useEffect(() => {
     const timeoutId = setTimeout(() => {
