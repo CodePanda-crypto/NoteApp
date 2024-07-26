@@ -47,7 +47,7 @@ export default function App() {
       if (currentNoteId) {
         updateNote(tempNoteText);
       }
-    }, 500);
+    }, 1000);
     return () => clearTimeout(timeoutId);
   }, [tempNoteText, currentNoteId]);
 
