@@ -10,13 +10,6 @@ export default function App() {
 
   useEffect(() => {
     const auth = getAuth();
-    // signInAnonymously(auth)
-    //   .then(() => {
-    //     console.log('Signed in anonymously');
-    //   })
-    //   .catch((error) => {
-    //     console.error('Error signing in anonymously:', error);
-    //   });
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -85,11 +78,8 @@ export default function App() {
 
   // function to create a new note
   async function createNewNote() {
-    if (!user) {
-      // console.log('User is not authenticated');
-      return;
-    }
-    console.log('Creating a new note...');
+    if (!user) return;
+
     try {
       const newNote = {
         body: "# Type your markdown note's title here",
@@ -97,7 +87,6 @@ export default function App() {
         updatedAt: Date.now(),
       };
       const newNoteRef = await addDoc(notesCollection, newNote);
-      // console.log('New note created with ID:', newNoteRef.id);
       setCurrentNoteId(newNoteRef.id);
     } catch (error) {
       console.error('Error creating new note:', error);
@@ -126,7 +115,6 @@ export default function App() {
     <div className="App">
       <Header />
       <Notes
-        // Data being passed to the child components
         notes={notes}
         currentNoteId={currentNoteId}
         setCurrentNoteId={setCurrentNoteId}
