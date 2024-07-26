@@ -6,8 +6,6 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
 export default function Notes(props) {
-  const currentNote = props.findCurrentNote();
-
   // Define the default split sizes
   const defaultSizes = [20, 80];
 
@@ -34,12 +32,15 @@ export default function Notes(props) {
         >
           <Sidebar
             notes={props.sortedNotes}
-            currentNote={currentNote}
+            currentNote={props.currentNote}
             setCurrentNoteId={props.setCurrentNoteId}
             newNote={props.createNewNote}
             deleteNote={props.deleteNote}
           />
-          <Editor currentNote={currentNote} updateNote={props.updateNote} />
+          <Editor
+            tempNoteText={props.tempNoteText}
+            setTempNoteText={props.setTempNoteText}
+          />
         </Split>
       ) : (
         <div className="no-notes">
@@ -63,7 +64,9 @@ Notes.propTypes = {
   setCurrentNoteId: PropTypes.func.isRequired,
   createNewNote: PropTypes.func.isRequired,
   updateNote: PropTypes.func.isRequired,
-  findCurrentNote: PropTypes.func.isRequired,
   deleteNote: PropTypes.func.isRequired,
   sortedNotes: PropTypes.array.isRequired,
+  currentNote: PropTypes.object,
+  tempNoteText: PropTypes.string.isRequired,
+  setTempNoteText: PropTypes.func.isRequired,
 };

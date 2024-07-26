@@ -1,55 +1,66 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Header from './Components/Header';
 import Notes from './Components/Note';
 import { onSnapshot, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { notesCollection, db } from './Firebase';
 
 export default function App() {
-  // Initialize notes state and currentNoteId with default values
   const [notes, setNotes] = useState([]);
   const [currentNoteId, setCurrentNoteId] = useState('');
+  const [tempNoteText, setTempNoteText] = useState('');
 
-  //Sorted Notes
-  const sortedNotes = notes.sort((a, b) => {
-    return b.updatedAt - a.updatedAt;
-  });
+  const currentNote = useMemo(
+    () => notes.find((note) => note.id === currentNoteId) || notes[0],
+    [notes, currentNoteId]
+  );
 
-  // Fetch notes from Firestore and update the state
+  const sortedNotes = useMemo(
+    () => notes.sort((a, b) => b.updatedAt - a.updatedAt),
+    [notes]
+  );
+
   useEffect(() => {
-    const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
+    const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
       const notesArr = snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
       setNotes(notesArr);
     });
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
 
-  // Set the currentNoteId based on the notes state
   useEffect(() => {
-    if (notes.length > 0 && !currentNoteId) {
+    if (!currentNoteId && notes.length > 0) {
       setCurrentNoteId(notes[0]?.id);
     }
   }, [notes, currentNoteId]);
 
-  // Create a new note and add it to Firestore
+  useEffect(() => {
+    if (currentNote) {
+      setTempNoteText(currentNote.body);
+    }
+  }, [currentNote]);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (currentNoteId) {
+        updateNote(tempNoteText);
+      }
+    }, 500);
+    return () => clearTimeout(timeoutId);
+  }, [tempNoteText, currentNoteId]);
+
   async function createNewNote() {
     const newNote = {
-      body: "Type your markdown note's title here",
+      body: "# Type your markdown note's title here",
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
-    try {
-      const newNoteRef = await addDoc(notesCollection, newNote);
-      setCurrentNoteId(newNoteRef.id);
-    } catch (error) {
-      console.error('Error adding document: ', error);
-    }
+    const newNoteRef = await addDoc(notesCollection, newNote);
+    setCurrentNoteId(newNoteRef.id);
   }
 
-  // Update the note's body and reorder the notes array
   async function updateNote(text) {
     const docRef = doc(db, 'notes', currentNoteId);
     await setDoc(
@@ -59,15 +70,9 @@ export default function App() {
     );
   }
 
-  // Delete a note from the state
   async function deleteNote(noteId) {
     const docRef = doc(db, 'notes', noteId);
     await deleteDoc(docRef);
-  }
-
-  // Find the currently selected note
-  function findCurrentNote() {
-    return notes.find((note) => note.id === currentNoteId) || notes[0];
   }
 
   return (
@@ -79,9 +84,11 @@ export default function App() {
         setCurrentNoteId={setCurrentNoteId}
         createNewNote={createNewNote}
         updateNote={updateNote}
-        findCurrentNote={findCurrentNote}
         deleteNote={deleteNote}
         sortedNotes={sortedNotes}
+        currentNote={currentNote}
+        tempNoteText={tempNoteText}
+        setTempNoteText={setTempNoteText}
       />
     </div>
   );
