@@ -37,7 +37,9 @@ export default function Notes(props) {
           <button
             className="first-note"
             id="first-note"
-            onClick={props.createNewNote}
+            onClick={() => {
+              props.createNewNote();
+            }}
           >
             Create one now
           </button>
@@ -46,7 +48,8 @@ export default function Notes(props) {
     </main>
   );
 }
-//PropTypes
+
+// PropTypes
 Notes.propTypes = {
   notes: PropTypes.array.isRequired,
   currentNoteId: PropTypes.string,
@@ -55,7 +58,7 @@ Notes.propTypes = {
   updateNote: PropTypes.func.isRequired,
   deleteNote: PropTypes.func.isRequired,
   sortedNotes: PropTypes.array.isRequired,
-  currentNote: PropTypes.object,
+  currentNote: PropTypes.object, // Allow null or undefined
   tempNoteText: PropTypes.string.isRequired,
   setTempNoteText: PropTypes.func.isRequired,
 };

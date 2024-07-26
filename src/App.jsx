@@ -3,24 +3,45 @@ import Header from './Components/Header';
 import Notes from './Components/Note';
 import { onSnapshot, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { notesCollection, db } from './Firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function App() {
+  const [user, setUser] = useState(null);
+  //anonymous Sign in
+  useEffect(() => {
+    const auth = getAuth();
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // existing code for handling notes
   const [notes, setNotes] = useState([]);
   const [currentNoteId, setCurrentNoteId] = useState('');
   const [tempNoteText, setTempNoteText] = useState('');
-  //useMemo to identify thr currentNote
+
+  // useMemo to identify the currentNote
   const currentNote = useMemo(
     () => notes.find((note) => note.id === currentNoteId) || notes[0],
     [notes, currentNoteId]
   );
+
   // set the currentNote on top of the list in the sideBar
   const sortedNotes = useMemo(
-    () => notes.sort((a, b) => b.updatedAt - a.updatedAt),
+    () => notes.slice().sort((a, b) => b.updatedAt - a.updatedAt),
     [notes]
   );
 
   // useEffect to get the notes from firebase
   useEffect(() => {
+    if (!user) return;
     const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
       const notesArr = snapshot.docs.map((doc) => ({
         ...doc.data(),
@@ -29,41 +50,54 @@ export default function App() {
       setNotes(notesArr);
     });
     return unsubscribe;
-  }, []);
-  //useEffect to set the currentNoteId when the currentNote changes
+  }, [user]);
+
+  // useEffect to set the currentNoteId when the currentNote changes
   useEffect(() => {
     if (!currentNoteId && notes.length > 0) {
       setCurrentNoteId(notes[0]?.id);
     }
   }, [notes, currentNoteId]);
+
   // Bouncing Updates
   useEffect(() => {
     if (currentNote) {
       setTempNoteText(currentNote.body);
     }
   }, [currentNote]);
+
   // Debouncing Updates: set a delay of 1000ms for the on keystrokes
-  // currentNote in the sideBar pops up to top after 1000ms
   useEffect(() => {
+    if (!currentNote || !tempNoteText) return;
     const timeoutId = setTimeout(() => {
       if (tempNoteText !== currentNote.body) {
         updateNote(tempNoteText);
       }
     }, 1000);
     return () => clearTimeout(timeoutId);
-  }, [tempNoteText]);
-  //  function to create a new note
+  }, [tempNoteText, currentNote]);
+
+  // function to create a new note
   async function createNewNote() {
-    const newNote = {
-      body: "# Type your markdown note's title here",
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    };
-    const newNoteRef = await addDoc(notesCollection, newNote);
-    setCurrentNoteId(newNoteRef.id);
+    if (!user) {
+      return;
+    }
+    try {
+      const newNote = {
+        body: "# Type your markdown note's title here",
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      };
+      const newNoteRef = await addDoc(notesCollection, newNote);
+      setCurrentNoteId(newNoteRef.id);
+    } catch (error) {
+      console.error('Error creating new note:', error); // Debugging log
+    }
   }
+
   // function to update note
   async function updateNote(text) {
+    if (!user) return;
     const docRef = doc(db, 'notes', currentNoteId);
     await setDoc(
       docRef,
@@ -71,8 +105,10 @@ export default function App() {
       { merge: true }
     );
   }
+
   // function to delete note
   async function deleteNote(noteId) {
+    if (!user) return;
     const docRef = doc(db, 'notes', noteId);
     await deleteDoc(docRef);
   }
