@@ -38,6 +38,7 @@ export default function Notes(props) {
             className="first-note"
             id="first-note"
             onClick={() => {
+              console.log('Button Clicked')
               props.createNewNote();
             }}
           >
