@@ -3,28 +3,35 @@ import Header from './Components/Header';
 import Notes from './Components/Note';
 import { onSnapshot, addDoc, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { notesCollection, db } from './Firebase';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signInAnonymously } from 'firebase/auth';
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [notes, setNotes] = useState([]);
+  const [currentNoteId, setCurrentNoteId] = useState('');
+  const [tempNoteText, setTempNoteText] = useState('');
 
   useEffect(() => {
     const auth = getAuth();
 
+    // Check if a user is authenticated
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setUser(user); // Authenticated user
       } else {
-        setUser(null);
+        // If no authenticated user, sign in anonymously
+        signInAnonymously(auth)
+          .then(() => {
+            console.log('Signed in as anonymous user');
+          })
+          .catch((error) => {
+            console.error('Error signing in anonymously:', error);
+          });
       }
     });
 
     return () => unsubscribe();
   }, []);
-
-  const [notes, setNotes] = useState([]);
-  const [currentNoteId, setCurrentNoteId] = useState('');
-  const [tempNoteText, setTempNoteText] = useState('');
 
   // useMemo to identify the currentNote
   const currentNote = useMemo(
@@ -38,10 +45,9 @@ export default function App() {
     [notes]
   );
 
-  // useEffect to get the notes from firebase
+  // Fetch notes from Firestore
   useEffect(() => {
-    if (!user) return;
-    const unsubscribe = onSnapshot(notesCollection, function (snapshot) {
+    const unsubscribe = onSnapshot(notesCollection, (snapshot) => {
       const notesArr = snapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
@@ -65,7 +71,7 @@ export default function App() {
     }
   }, [currentNote]);
 
-  // Debouncing Updates: set a delay of 1000ms for the on keystrokes
+  // Debouncing Updates
   useEffect(() => {
     if (!currentNote || !tempNoteText) return;
     const timeoutId = setTimeout(() => {
@@ -78,8 +84,6 @@ export default function App() {
 
   // function to create a new note
   async function createNewNote() {
-    if (!user) return;
-
     try {
       const newNote = {
         body: "# Type your markdown note's title here",
@@ -95,7 +99,6 @@ export default function App() {
 
   // function to update note
   async function updateNote(text) {
-    if (!user) return;
     const docRef = doc(db, 'notes', currentNoteId);
     await setDoc(
       docRef,
@@ -106,7 +109,6 @@ export default function App() {
 
   // function to delete note
   async function deleteNote(noteId) {
-    if (!user) return;
     const docRef = doc(db, 'notes', noteId);
     await deleteDoc(docRef);
   }
