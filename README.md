@@ -4,7 +4,7 @@
 
 
 
-## [🔗LiveDemo](https://cryptosnoteapp.netlify.app/)
+## [🔗LiveDemo](https://cryptonoteapp.netlify.app/)
 
 
 
